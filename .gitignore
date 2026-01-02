@@ -1,0 +1,27 @@
+# Dependencies
+node_modules/
+
+# Environment variables (contains secrets!)
+.env
+
+# Logs
+*.log
+npm-debug.log*
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+
+# Data files (optional - uncomment if you want to track scheduled tweets)
+# data/scheduled-tweets.json
+
+# Build output
+dist/
+
+# Uploads
+uploads/
+!uploads/.gitkeep

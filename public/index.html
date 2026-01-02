@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>X Tweet Automation | AI-Powered Tweet Generator</title>
+    <meta name="description" content="Generate and post tweets using AI. Powered by Groq, Gemini, Mistral and X API.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <div class="app-container">
+        <!-- Header -->
+        <header class="header">
+            <div class="logo">
+                <span class="logo-icon">🐦</span>
+                <span class="logo-text">X Tweet Automation</span>
+            </div>
+            <nav class="nav-tabs">
+                <button class="nav-tab active" data-tab="generate">
+                    <span class="tab-icon">✨</span>
+                    <span>Generate</span>
+                </button>
+                <button class="nav-tab" data-tab="settings">
+                    <span class="tab-icon">⚙️</span>
+                    <span>Settings</span>
+                </button>
+            </nav>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Generate Tab -->
+            <section id="generate-tab" class="tab-content active">
+                <div class="card generate-card">
+                    <div class="card-header">
+                        <h2>📝 Generate Tweet with AI</h2>
+                        <p class="card-subtitle">Describe what you want to tweet about and let AI do the magic</p>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="prompt">What should I tweet about?</label>
+                        <textarea id="prompt" class="input-textarea"
+                            placeholder="e.g., Share a motivational tip about productivity for developers..."
+                            rows="3"></textarea>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="provider">AI Provider</label>
+                            <select id="provider" class="input-select">
+                                <option value="groq">⚡ Groq (Llama 3.3)</option>
+                                <option value="gemini">✨ Google Gemini</option>
+                                <option value="mistral">🌀 Mistral AI</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="tone">Tone</label>
+                            <select id="tone" class="input-select">
+                                <option value="professional">💼 Professional</option>
+                                <option value="casual">😊 Casual</option>
+                                <option value="humorous">😄 Humorous</option>
+                                <option value="inspirational">🌟 Inspirational</option>
+                                <option value="informative">📚 Informative</option>
+                                <option value="controversial">🔥 Controversial</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <button id="generate-btn" class="btn btn-primary btn-large btn-full">
+                        <span class="btn-icon">✨</span>
+                        Generate Tweet
+                    </button>
+                </div>
+
+                <!-- Preview Card -->
+                <div class="card preview-card" id="preview-card" style="display: none;">
+                    <div class="card-header">
+                        <h2>📋 Preview</h2>
+                        <span class="char-count" id="char-count">0/280</span>
+                    </div>
+
+                    <div class="tweet-preview" id="tweet-preview">
+                        <div class="tweet-content" id="tweet-content"></div>
+                    </div>
+
+                    <div class="preview-actions">
+                        <button id="regenerate-btn" class="btn btn-secondary">
+                            <span class="btn-icon">🔄</span>
+                            Regenerate
+                        </button>
+                        <button id="post-btn" class="btn btn-success btn-large">
+                            <span class="btn-icon">🚀</span>
+                            Post to X
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Success Message -->
+                <div class="card success-card" id="success-card" style="display: none;">
+                    <div class="success-icon">🎉</div>
+                    <h3>Tweet Posted Successfully!</h3>
+                    <p id="success-message">Your tweet is now live.</p>
+                    <a id="tweet-link" href="#" target="_blank" class="btn btn-outline">
+                        <span>View on X</span>
+                        <span class="btn-icon">↗️</span>
+                    </a>
+                    <button id="new-tweet-btn" class="btn btn-primary" style="margin-top: 1rem;">
+                        <span class="btn-icon">✨</span>
+                        Create Another Tweet
+                    </button>
+                </div>
+            </section>
+
+            <!-- Settings Tab -->
+            <section id="settings-tab" class="tab-content">
+                <!-- X API Credentials -->
+                <div class="card settings-card">
+                    <div class="card-header">
+                        <h2>🔑 X API Credentials</h2>
+                        <p class="card-subtitle">Get your credentials from <a href="https://developer.x.com"
+                                target="_blank">developer.x.com</a></p>
+                    </div>
+
+                    <div class="credentials-status" id="x-status">
+                        <span class="status-indicator not-configured"></span>
+                        <span>Not configured</span>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="x-api-key">API Key (Consumer Key)</label>
+                        <input type="password" id="x-api-key" class="input-text" placeholder="Enter your API Key">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="x-api-secret">API Key Secret (Consumer Secret)</label>
+                        <input type="password" id="x-api-secret" class="input-text"
+                            placeholder="Enter your API Key Secret">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="x-access-token">Access Token</label>
+                        <input type="password" id="x-access-token" class="input-text"
+                            placeholder="Enter your Access Token">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="x-access-token-secret">Access Token Secret</label>
+                        <input type="password" id="x-access-token-secret" class="input-text"
+                            placeholder="Enter your Access Token Secret">
+                    </div>
+                </div>
+
+                <!-- LLM API Keys -->
+                <div class="card settings-card">
+                    <div class="card-header">
+                        <h2>🤖 LLM API Keys</h2>
+                        <p class="card-subtitle">Configure one or more AI providers for tweet generation</p>
+                    </div>
+
+                    <!-- Groq -->
+                    <div class="provider-section">
+                        <div class="provider-header">
+                            <span class="provider-icon">⚡</span>
+                            <span class="provider-name">Groq</span>
+                            <a href="https://console.groq.com" target="_blank" class="provider-link">Get API Key →</a>
+                        </div>
+                        <div class="credentials-status" id="groq-status">
+                            <span class="status-indicator not-configured"></span>
+                            <span>Not configured</span>
+                        </div>
+                        <div class="form-group">
+                            <input type="password" id="groq-api-key" class="input-text"
+                                placeholder="Enter your Groq API Key">
+                        </div>
+                    </div>
+
+                    <!-- Gemini -->
+                    <div class="provider-section">
+                        <div class="provider-header">
+                            <span class="provider-icon">✨</span>
+                            <span class="provider-name">Google Gemini</span>
+                            <a href="https://aistudio.google.com/app/apikey" target="_blank" class="provider-link">Get
+                                API Key →</a>
+                        </div>
+                        <div class="credentials-status" id="gemini-status">
+                            <span class="status-indicator not-configured"></span>
+                            <span>Not configured</span>
+                        </div>
+                        <div class="form-group">
+                            <input type="password" id="gemini-api-key" class="input-text"
+                                placeholder="Enter your Gemini API Key">
+                        </div>
+                    </div>
+
+                    <!-- Mistral -->
+                    <div class="provider-section">
+                        <div class="provider-header">
+                            <span class="provider-icon">🌀</span>
+                            <span class="provider-name">Mistral AI</span>
+                            <a href="https://console.mistral.ai/api-keys" target="_blank" class="provider-link">Get API
+                                Key →</a>
+                        </div>
+                        <div class="credentials-status" id="mistral-status">
+                            <span class="status-indicator not-configured"></span>
+                            <span>Not configured</span>
+                        </div>
+                        <div class="form-group">
+                            <input type="password" id="mistral-api-key" class="input-text"
+                                placeholder="Enter your Mistral API Key">
+                        </div>
+                    </div>
+                </div>
+
+                <button id="save-credentials-btn" class="btn btn-primary btn-large btn-full">
+                    <span class="btn-icon">💾</span>
+                    Save All Credentials
+                </button>
+            </section>
+        </main>
+
+        <!-- Toast Notifications -->
+        <div id="toast" class="toast"></div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+
+</html>
