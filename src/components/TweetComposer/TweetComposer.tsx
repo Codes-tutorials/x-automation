@@ -27,7 +27,7 @@ export default function TweetComposer() {
     });
 
     const charCount = text.length;
-    const isOverLimit = charCount > 280;
+    const isOverLimit = charCount > 2000;
     const hasMedia = mediaFiles.length > 0;
     const hasPoll = poll.enabled && poll.options.filter(o => o.trim()).length >= 2;
 
@@ -68,7 +68,7 @@ export default function TweetComposer() {
         }
 
         if (isOverLimit) {
-            showToast('Tweet exceeds 280 characters', 'error');
+            showToast('Tweet exceeds 2000 characters', 'error');
             return;
         }
 
@@ -151,7 +151,7 @@ export default function TweetComposer() {
                 <div className="composer-header">
                     <h2>📝 What's happening?</h2>
                     <span className={`char-count ${charCount > 260 ? 'warning' : ''} ${isOverLimit ? 'error' : ''}`}>
-                        {charCount}/280
+                        {charCount}/2000
                     </span>
                 </div>
 

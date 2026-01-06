@@ -30,8 +30,8 @@ export async function postTweet(text) {
             throw new Error('Tweet text cannot be empty');
         }
 
-        if (text.length > 280) {
-            throw new Error(`Tweet exceeds 280 characters (${text.length} chars)`);
+        if (text.length > 2000) {
+            throw new Error(`Tweet exceeds 2000 characters (${text.length} chars)`);
         }
 
         logger.info(`Posting tweet (${text.length} chars)...`);

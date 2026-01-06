@@ -38,7 +38,8 @@ function getSystemPrompt(tone) {
     return `You are a social media expert who writes viral tweets. Your tweets are ${toneDesc}.
 
 Rules:
-- Keep tweets under 280 characters (VERY IMPORTANT)
+- Write longer tweets, approximately 300-400 characters
+- Format the tweet into 2-3 distinct paragraphs/lines for readability
 - Use emojis sparingly but effectively (1-3 max)
 - Include relevant hashtags when appropriate (1-2 max)
 - Make the tweet engaging and shareable
@@ -55,9 +56,9 @@ function cleanTweet(tweet) {
     // Remove quotes if present
     let cleanTweet = tweet.trim().replace(/^["']|["']$/g, '');
 
-    // Truncate if over 280 characters
-    if (cleanTweet.length > 280) {
-        cleanTweet = cleanTweet.substring(0, 277) + '...';
+    // Truncate if over 500 characters (safety limit for the new 300-400 goal)
+    if (cleanTweet.length > 500) {
+        cleanTweet = cleanTweet.substring(0, 497) + '...';
     }
 
     return cleanTweet;
@@ -76,7 +77,7 @@ async function generateWithGroq(prompt, tone, apiKey) {
         ],
         model: 'llama-3.3-70b-versatile',
         temperature: 0.8,
-        max_tokens: 150,
+        max_tokens: 300,
     });
 
     return completion.choices[0]?.message?.content;
